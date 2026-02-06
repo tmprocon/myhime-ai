@@ -10,18 +10,30 @@ export function createClient() {
     {
       cookies: {
         getAll() {
-          return cookieStore.getAll();
+          // Some Next.js/TS versions don't type getAll() even if it exists at runtime.
+          // So we safely detect it and fall back.
+          const anyStore = cookieStore as any;
+
+          if (typeof anyStore.getAll === "function") {
+            return anyStore.getAll();
+          }
+
+          // Fallback: build cookie list from known keys if getAll isn't available.
+          // (Supabase only needs its own auth cookies; this still allows build + runtime)
+          const names = [
+            "sb-access-token",
+            "sb-refresh-token",
+            "supabase-auth-token",
+          ];
+
+          return names
+            .map((name) => {
+              const value = cookieStore.get(name)?.value;
+              return value ? { name, value } : null;
+            })
+            .filter(Boolean) as { name: string; value: string }[];
         },
+
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          } catch {
-            // Server Components can throw if trying to set cookies in some contexts.
-          }
-        },
-      },
-    }
-  );
-}
