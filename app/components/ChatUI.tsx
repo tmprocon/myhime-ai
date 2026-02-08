@@ -4,14 +4,19 @@ import { useState } from "react";
 
 type Msg = { role: "assistant" | "user"; text: string };
 
+const WELCOME: Msg = {
+  role: "assistant",
+  text: "Hey Eugene — tell me what you’re working on today, and I’ll help you plan it step-by-step.",
+};
+
 export default function ChatUI() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Msg[]>([
-    {
-      role: "assistant",
-      text: "Hey Eugene — tell me what you’re working on today, and I’ll help you plan it step-by-step.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Msg[]>([WELCOME]);
+
+  function newChat() {
+    setMessages([WELCOME]);
+    setInput("");
+  }
 
   function send() {
     const text = input.trim();
@@ -26,11 +31,57 @@ export default function ChatUI() {
         ...m,
         { role: "assistant", text: "Got it. Next, tell me your goal and your deadline." },
       ]);
-    }, 350);
+    }, 250);
   }
 
   return (
     <div style={{ height: "calc(100vh - 120px)", display: "flex", flexDirection: "column", gap: 14 }}>
+      {/* Top row actions */}
+      <div style={{ maxWidth: 900, margin: "0 auto", width: "100%", display: "flex", gap: 10 }}>
+        <button
+          onClick={newChat}
+          style={{
+            padding: "10px 12px",
+            borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.16)",
+            background: "rgba(255,255,255,0.07)",
+            color: "#e8eefc",
+            cursor: "pointer",
+            fontWeight: 700,
+          }}
+        >
+          + New chat
+        </button>
+
+        <button
+          onClick={() => alert("Voice coming next")}
+          style={{
+            padding: "10px 12px",
+            borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.05)",
+            color: "#e8eefc",
+            cursor: "pointer",
+          }}
+        >
+          🎤 Talk
+        </button>
+
+        <button
+          onClick={() => alert("Voice reply coming next")}
+          style={{
+            padding: "10px 12px",
+            borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.05)",
+            color: "#e8eefc",
+            cursor: "pointer",
+          }}
+        >
+          🔊 Speak
+        </button>
+      </div>
+
       {/* Messages */}
       <div style={{ flex: 1, overflowY: "auto", paddingRight: 6 }}>
         <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
@@ -92,7 +143,7 @@ export default function ChatUI() {
       </div>
 
       <div style={{ maxWidth: 900, margin: "0 auto", width: "100%", fontSize: 12, opacity: 0.6 }}>
-        Tip: Press Enter to send • Voice coming next
+        Tip: Press Enter to send • Voice buttons are next
       </div>
     </div>
   );
