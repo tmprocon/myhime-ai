@@ -25,15 +25,38 @@ export default function NavBar() {
 
   return (
     <header style={{ padding: 16, borderBottom: "1px solid rgba(255,255,255,0.12)" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+      <div
+        style={{
+          maxWidth: 1000,
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <Image src="/logo.png" alt="MyHiMe" width={160} height={54} priority />
+          <Link
+            href="/dashboard"
+            style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
+          >
+            <Image
+              src="/logo.png"
+              alt="MyHiMe"
+              width={120}
+              height={40}
+              priority
+              style={{ borderRadius: 12 }}
+            />
           </Link>
 
           <nav style={{ display: "flex", gap: 14 }}>
-            <Link href="/dashboard" style={{ color: "#e8eefc", textDecoration: "none" }}>Dashboard</Link>
-            <Link href="/profile" style={{ color: "#e8eefc", textDecoration: "none" }}>Profile</Link>
+            <Link href="/dashboard" style={{ color: "#e8eefc", textDecoration: "none" }}>
+              Dashboard
+            </Link>
+            <Link href="/profile" style={{ color: "#e8eefc", textDecoration: "none" }}>
+              Profile
+            </Link>
           </nav>
         </div>
 
